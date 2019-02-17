@@ -44,15 +44,15 @@
         <td><%= number_with_delimiter(order.radius) %></td>
         <td><%= order.sender.name %></td>
         <td><%= order.transporter.present? ? order.transporter.company.name : "-" %></td>
-        <td><%= link_to sender_order_path(@sender, order) do %><span class="fa fa-eye"></span><% end %></td>
-        <td><%= link_to edit_sender_order_path(@sender, order) do %><span class="fa fa-edit"></span><% end %></td>
-        <td><%= link_to sender_order_path(@sender, order), method: :delete, data: { confirm: 'Are you sure?' } do %><span class="fa fa-trash"></span><% end %></td>
+        <td><%= link_to url_for([@user, order]) do %><span class="fa fa-eye"></span><% end %></td>
+        <td><%= link_to url_for([:edit, @user, order]) do %><span class="fa fa-edit"></span><% end %></td>
+        <td><%= link_to url_for([@user, order]), method: :delete, data: { confirm: 'Are you sure?' } do %><span class="fa fa-trash"></span><% end %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <hr>
-<%= link_to 'New Order', new_sender_order_path(@sender) %> |
-<%= link_to 'Back', sender_path(@sender) %>
+<%= link_to 'New Order', url_for([:new, @user, :order]) %> |
+<%= link_to 'Back', url_for(@user) %>
 <hr>

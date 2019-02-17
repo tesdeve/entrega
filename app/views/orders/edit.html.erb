@@ -3,6 +3,6 @@
 <%= render 'form', order: @order %>
 
 <hr>
-<%= link_to 'Show', sender_order_path(@sender,@order) %> |
-<%= link_to 'Back', sender_orders_path(@sender) %>
+<%= link_to 'Show', url_for([@user, @order]) %> |
+<%= link_to 'Back', url_for([@user, :orders]) %>
 <hr>

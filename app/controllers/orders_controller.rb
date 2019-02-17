@@ -1,15 +1,17 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_action :set_sender
+  before_action :set_user
 
   # GET /orders
   # GET /orders.json
   def index
-    @orders = @sender.orders
+    @orders = @user.orders
   end
 
   def posts
-    @orders = Order.all
+    coordinates =[@user.latitude, @user.longitude]
+    @orders = Order.posted.select {|o| (Geocoder::Calculations.distance_between(coordinates, \
+                [o.pu_lat,o.pu_lng])*1000) <= o.radius ? o : nil}
     render :index
   end
 
@@ -20,7 +22,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new({:sender_id => @sender.id})
+    @order = Order.new
   end
 
   # GET /orders/1/edit
@@ -34,7 +36,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        format.html { redirect_to sender_order_path(@sender,@order), notice: 'Order was successfully created.' }
+        format.html { redirect_to url_for([@user, @order]), notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -48,7 +50,7 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to sender_order_path(@sender,@order), notice: 'Order was successfully updated.' }
+        format.html { redirect_to url_for([@user, @order]), notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }
@@ -62,7 +64,7 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to sender_orders_path(@sender), notice: 'Order was successfully destroyed.' }
+      format.html { redirect_to url_for([@user, :orders]), notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -73,8 +75,9 @@ class OrdersController < ApplicationController
       @order = Order.find(params[:id])
     end
 
-    def set_sender
-      @sender = Sender.find(params[:sender_id])
+    def set_user
+      resource, id = request.path.split('/')[1,2]
+      @user = resource.singularize.classify.constantize.find(id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

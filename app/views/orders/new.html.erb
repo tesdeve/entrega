@@ -3,5 +3,5 @@
 <%= render 'form', order: @order %>
 
 <hr>
-<%= link_to 'Back', sender_orders_path(@sender) %>
+<%= link_to 'Back', url_for([@user, :orders]) %>
 <hr>

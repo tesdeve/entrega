@@ -89,8 +89,8 @@
 </table>
 
 <hr>
-<%= link_to 'Edit', edit_sender_order_path(@sender, @order) %> |
-<%= link_to 'Back', sender_orders_path(@sender) %>
+<%= link_to 'Edit', url_for([:edit, @user, @order]) %> |
+<%= link_to 'Back', url_for([@user, :orders]) %>
 <hr>
 
 <%= plane_icon = {:name => 'plane',
