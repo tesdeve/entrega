@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyText
+  weight: 9.99
+  length: 9.99
+  width: 9.99
+  heigth: 9.99
+  pickup_address: MyString
+  pu_lat: 1.5
+  pu_lng: 1.5
+  pu_time: 2019-02-16 20:27:51
+  delivery_address: MyString
+  dy_lat: 1.5
+  dy_lng: 1.5
+  dy_time: 2019-02-16 20:27:51
+  cost: 9.99
+  status: 1
+  radius: 1
+  sender: one
+  transporter: one
+
+two:
+  description: MyText
+  weight: 9.99
+  length: 9.99
+  width: 9.99
+  heigth: 9.99
+  pickup_address: MyString
+  pu_lat: 1.5
+  pu_lng: 1.5
+  pu_time: 2019-02-16 20:27:51
+  delivery_address: MyString
+  dy_lat: 1.5
+  dy_lng: 1.5
+  dy_time: 2019-02-16 20:27:51
+  cost: 9.99
+  status: 1
+  radius: 1
+  sender: two
+  transporter: two

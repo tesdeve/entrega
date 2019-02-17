@@ -1,0 +1,8 @@
+<h1>Editing Order</h1>
+
+<%= render 'form', order: @order %>
+
+<hr>
+<%= link_to 'Show', sender_order_path(@sender,@order) %> |
+<%= link_to 'Back', sender_orders_path(@sender) %>
+<hr>

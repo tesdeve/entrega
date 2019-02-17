@@ -1,0 +1,127 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-striped">
+  <thead>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th>Description</th>
+      <td><%= @order.description %></td>
+    </tr>
+
+    <tr>
+      <th>Weight</th>
+      <td><%= @order.weight %></td>
+    </tr>
+
+    <tr>
+      <th>Length</th>
+      <td><%= @order.length %></td>
+    </tr>
+
+    <tr>
+      <th>Width</th>
+      <td><%= @order.width %></td>
+    </tr>
+
+    <tr>
+      <th>Heigth</th>
+      <td><%= @order.heigth %></td>
+    </tr>
+
+    <tr>
+      <th>Pickup Address</th>
+      <td><%= @order.pickup_address %></td>
+    </tr>
+
+    <tr>
+      <th>Pickup Coordinates</th>
+      <td><%= [@order.pu_lat, @order.pu_lng].to_dms %></td>
+    </tr>
+
+    <tr>
+      <th>Pickup Time</th>
+      <td><%= @order.pu_time %></td>
+    </tr>
+
+    <tr>
+      <th>Delivery Address</th>
+      <td><%= @order.delivery_address %></td>
+    </tr>
+
+    <tr>
+      <th>Delivery Coordinates</th>
+      <td><%= [@order.dy_lat, @order.dy_lng].to_dms %></td>
+    </tr>
+
+    <tr>
+      <th>Delivery Time</th>
+      <td><%= @order.dy_time %></td>
+    </tr>
+
+    <tr>
+      <th>Cost</th>
+      <td><%= number_with_delimiter(@order.cost.to_i) %></td>
+    </tr>
+
+    <tr>
+      <th>Status</th>
+      <td><%= @order.status %></td>
+    </tr>
+
+    <tr>
+      <th>Radius</th>
+      <td><%= number_with_delimiter(@order.radius) %></td>
+    </tr>
+
+    <tr>
+      <th>Sender</th>
+      <td><%= @order.sender.name %></td>
+    </tr>
+
+    <tr>
+      <th>Company</th>
+      <td><%= @order.transporter.present? ? @order.transporter.company.name : "-" %></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<hr>
+<%= link_to 'Edit', edit_sender_order_path(@sender, @order) %> |
+<%= link_to 'Back', sender_orders_path(@sender) %>
+<hr>
+
+<%= plane_icon = {:name => 'plane',
+                  :icon_url => asset_path('plane.png'),
+                  :icon_size => [40, 40],
+                  :icon_anchor => [20, 20],
+                  :popup_anchor => [0, -20]}
+    target_icon = {:name => 'target',
+                      :icon_url => asset_path('target.png'),
+                      :icon_size => [40, 40],
+                      :icon_anchor => [20, 20],
+                      :popup_anchor => [0, -20]}
+    pu_latlng = [@order.pu_lat, @order.pu_lng]
+    dy_latlng = [@order.dy_lat, @order.dy_lng]
+    map(
+        :center => {
+          :latlng => pu_latlng,
+          :zoom => 13
+        },
+        :markers => [
+          {
+          :latlng => pu_latlng,
+          :popup => "<b>Recolección:</b><br>#{@order.pickup_address}",
+          :icon => plane_icon
+          },
+          {
+          :latlng => dy_latlng,
+          :popup => "<b>Entrega:</b><br>#{@order.delivery_address}",
+          :icon => target_icon
+          }
+        ]
+    )
+%>
+<hr>

@@ -1,0 +1,85 @@
+<p id="notice"><%= notice %></p>
+
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
+
+<table class="table table-striped">
+  <thead>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><%= @company.name %></td>
+    </tr>
+
+    <tr>
+      <th>Telephone</th>
+      <td><%= @company.telephone %></td>
+    </tr>
+
+    <tr>
+      <th>email</th>
+      <td><%= @company.email %></td>
+    </tr>
+
+    <tr>
+      <th>Address</th>
+      <td><%= @company.address %></td>
+    </tr>
+
+    <tr>
+      <th>Coordiantes</th>
+      <td><%= [@company.latitude, @company.longitude].to_dms%></td>
+    </tr>
+
+    <tr>
+      <th>Radius</th>
+      <td><%= @company.radius %></td>
+    </tr>
+
+    <tr>
+      <th>Status</th>
+      <td><%= @company.status %></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<hr>
+<%= link_to 'Posted Orders', posts_company_orders_path(@company) %> |
+<%= link_to 'Transporters', company_transporters_path(@company) %> |
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
+<hr>
+
+<%= company_icon = {:name => 'company',
+                  :icon_url => asset_path('company.png'),
+                  :icon_size => [40, 40],
+                  :icon_anchor => [20, 40],
+                  :popup_anchor => [0, -40]}
+    latlng = [@company.latitude, @company.longitude]
+    map(
+        :center => {
+          :latlng => latlng,
+          :zoom => 13
+        },
+        :markers => [
+          {
+          :latlng => latlng,
+          :popup => "<b>#{@company.name}</b><br>#{@company.address}",
+          :icon => company_icon
+          }
+        ],
+        :circles => [
+          {
+            :latlng => latlng,
+            :radius => @company.radius,
+            :color => 'red',
+            :fillColor => '#111',
+            :fillOpacity => 0.35
+          }
+        ]
+    )
+%>
