@@ -27,6 +27,11 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+  #  if @user = @company
+  #    render :company_order
+  #  elsif @user = @sender
+  #    render :sender_order
+  #  end
   end
 
   # POST /orders

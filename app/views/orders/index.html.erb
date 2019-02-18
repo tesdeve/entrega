@@ -5,6 +5,9 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>Sender</th>
+      <th>Company</th>
+      <th>Status</th>
       <th>Description</th>
       <th>Weight</th>
       <th>Length</th>
@@ -16,11 +19,8 @@
       <th>Delivery address</th>
       <th>Delivery Coordinates</th>
       <th>Delivery Time</th>
-      <th>Cost</th>
-      <th>Status</th>
+      <th>Cost</th>      
       <th>Radius</th>
-      <th>Sender</th>
-      <th>Company</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -28,6 +28,9 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
+        <td><%= order.sender.name %></td>
+        <td><%= order.transporter.present? ? order.transporter.company.name : "-" %></td>
+        <td><%= order.status.present? ? order.status.capitalize : "-"  %></td>
         <td><%= order.description %></td>
         <td><%= order.weight %></td>
         <td><%= order.length %></td>
@@ -40,10 +43,9 @@
         <td><%= [order.dy_lat, order.dy_lng].to_dms %></td>
         <td><%= order.dy_time %></td>
         <td><%= number_with_delimiter(order.cost.to_i) %></td>
-        <td><%= order.status %></td>
+        
         <td><%= number_with_delimiter(order.radius) %></td>
-        <td><%= order.sender.name %></td>
-        <td><%= order.transporter.present? ? order.transporter.company.name : "-" %></td>
+
         <td><%= link_to url_for([@user, order]) do %><span class="fa fa-eye"></span><% end %></td>
         <td><%= link_to url_for([:edit, @user, order]) do %><span class="fa fa-edit"></span><% end %></td>
         <td><%= link_to url_for([@user, order]), method: :delete, data: { confirm: 'Are you sure?' } do %><span class="fa fa-trash"></span><% end %></td>
@@ -53,6 +55,10 @@
 </table>
 
 <hr>
-<%= link_to 'New Order', url_for([:new, @user, :order]) %> |
-<%= link_to 'Back', url_for(@user) %>
+  <% if @user.class.name == "Company" %>
+    <%= link_to 'Back', url_for(@user) %>
+  <% else %>
+    <%= link_to 'New Order', url_for([:new, @user, :order]) %> |
+    <%= link_to 'Back', url_for(@user) %>
+  <% end %>
 <hr>

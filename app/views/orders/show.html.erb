@@ -6,8 +6,6 @@
 
   <tbody>
 
-    <%= render 'info', order: @order %>
-
     <tr>
       <th>Sender</th>
       <td><%= @order.sender.name %></td>
@@ -17,6 +15,15 @@
       <th>Company</th>
       <td><%= @order.transporter.present? ? @order.transporter.company.name : "-" %></td>
     </tr>
+    <tr>
+    
+    <th>Transporter</th>
+      <td><%= @order.transporter.present? ? @order.transporter.name : "-"  %></td>
+    </tr>
+
+    <%= render 'info', order: @order %>
+
+
 
   </tbody>
 </table>

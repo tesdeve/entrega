@@ -16,6 +16,12 @@
     </thead>
 
     <tbody>
+      <% if @user.class.name == "Company" %>
+        <%= render 'info', order: @order %>
+      <% else %>
+        <%= render 'forminfo', form: form%>
+      <% end %>
+
       <tr>
         <th><%= form.label :sender_id %></th>
         <td><%= form.label @order.sender.name %></td> 
@@ -32,16 +38,6 @@
           <% end %>
         </td>
       </tr>
-      <tr>
-        <th><%= form.label :status %></th>
-        <td><%= form.select :status, Order.statuses.keys.map {|status| [status.titleize,status]} %></td>
-      </tr>
-
-        <% if @user.class.name == "Company" %>
-          <%= render 'info', order: @order %>
-        <% else %>
-          <%= render 'forminfo', form: form%>
-        <% end %>
 
     </tbody>
   </table>
