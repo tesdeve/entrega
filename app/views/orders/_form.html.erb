@@ -21,6 +21,8 @@
         <td><%= form.label @order.sender.name %></td> 
       </tr>
 
+
+<%# Think of logic to render (a block) only for Company, another one for Sernder and probably one more for transporter)%>
       <tr>
         <th><%= form.label :transporter_id %></th>
         <td>
@@ -32,9 +34,17 @@
           <% end %>
         </td>
       </tr>
+      <%# Next tr below is for the Company only) %>
+
       <tr>
         <th><%= form.label :status %></th>
-        <td><%= form.select :status, Order.statuses.keys.map {|status| [status.titleize,status]} %></td>
+         <td>
+        <% if @user.class.name == "Company" %>
+          <%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %>
+        <% else %> 
+          <%= form.select :status, Order.statuses.keys[0 ..1].map {|status| [status.titleize,status]} %>
+        <% end %>
+           </td>
       </tr>
 
         <% if @user.class.name == "Company" %>
