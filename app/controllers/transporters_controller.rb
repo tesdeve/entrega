@@ -1,16 +1,25 @@
 class TransportersController < ApplicationController
-  before_action :set_transporter, only: [:show, :edit, :update, :destroy]
-  before_action :set_company
+  before_action :set_transporter, only: [:show, :edit, :update, :destroy, :orders]
+  before_action :set_company, only: [:show, :edit, :update, :destroy, :orders]
 
   # GET /transporters
   # GET /transporters.json
-  def index
-    @transporters = @company.transporters
+  def index 
+    @company = Company.find(params[:company_id])   
+    @transporters = @company.transporters  
   end
+
 
   # GET /transporters/1
   # GET /transporters/1.json
   def show
+
+  end
+
+  def orders
+    @user = @company
+    @orders = @transporter.orders 
+    render 'orders/index'
   end
 
   # GET /transporters/new
@@ -69,7 +78,8 @@ class TransportersController < ApplicationController
     end
 
     def set_company
-      @company = Company.find(params[:company_id])
+        @company = @transporter.company # Added to be able to see from the Transporter 
+        #@company = Company.find(params[:company_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

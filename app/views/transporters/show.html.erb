@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
 
+<br>
+<h1><%= @transporter.name %></h1>
+<br>
+<br>
+
 <table class="table table-striped">
   <thead>
   </thead>
@@ -29,6 +34,9 @@
 </table>
 
 <hr>
-<%= link_to 'Edit', edit_company_transporter_path(@company, @transporter) %> |
-<%= link_to 'Back', company_transporters_path(@company) %>
+<%#= link_to 'Edit', edit_company_transporter_path(@company, @transporter) %> 
+<%= link_to 'Back to Transporter', company_transporters_path(@company) %> | 
+<%# if @user.class.name == "Transporter"  %>
+<%= link_to "My Orders", orders_company_transporter_path(@transporter) %> 
+
 <hr>

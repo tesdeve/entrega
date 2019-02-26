@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   root 'companies#index'
 
   resources :companies do
-    resources :transporters
+    resources :transporters do
+      member do 
+        get :orders
+      end
+    end
     resources :orders do
       collection do
         get :posts
@@ -14,8 +18,16 @@ Rails.application.routes.draw do
       end
     end
   end
+ 
   resources :senders do
-    resources :orders
+    resources :orders do 
+      member do
+        put :draft
+    end      
+    end
   end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  
 end
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+

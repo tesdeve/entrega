@@ -53,8 +53,7 @@
 
       <tr>
         <th><%= form.label :status %></th>
-        <td><%= form.label @company.status %>
-            <%= form.hidden_field :status %></td>
+        <td><%= form.select :status, Company.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
       </tr>
 
     </tbody>

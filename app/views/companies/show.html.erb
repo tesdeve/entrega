@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
-
+<br>
+<table class="table table-striped">
+  <h1><%= @company.name %></h1>
+<br>
+<br>
+<br>
 
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>
@@ -9,11 +14,7 @@
   </thead>
 
   <tbody>
-    <tr>
-      <th>Comnpany</th>
-      <td><%= @company.name %></td>
-    </tr>
-
+    
     <tr>
       <th>Telephone</th>
       <td><%= @company.telephone %></td>
@@ -49,9 +50,9 @@
 <br>
 <hr>
 <%= link_to 'Posted Orders', posts_company_orders_path(@company) %> |
+<%= link_to "My Orders".html_safe , url_for([@company, :orders]) %>  |
 <%= link_to 'Transporters', company_transporters_path(@company) %> |
-<%= link_to 'Edit', edit_company_path(@company) %> |
-<%= link_to 'Back', companies_path %>
+<%= link_to 'All Companies', companies_path %>
 <hr>
 
 <%= company_icon = {:name => 'company',

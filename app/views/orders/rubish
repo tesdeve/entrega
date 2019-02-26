@@ -1,0 +1,157 @@
+  companies/3/transporters/34
+
+
+
+
+
+
+
+
+
+ <td><%= link_to 'Create Order', sender_order_path(@user, @order.id) do  %><span class="fa fa-edit"></span><% end %></td> 
+
+
+
+ <td><%#= link_to 'Create Craft', draft_sender_order_path(@user, @order) do %> <span class="fa fa-edit">  </span><% end %></td>
+
+  <div class="actions">
+    <%#= form.submit %>
+  </div>
+
+
+
+
+  <td><%= link_to url_for([@user, order]), method: :delete, data: { confirm: 'Are you sure?' } do %><span class="fa fa-trash"></span><% end %></td>
+
+  Desde aca
+
+
+
+
+
+
+      <tr>
+        <th><%= form.label :sender_id %></th>
+        <td>
+          <% if @user.class.name == "Company" %>
+            <%= @order.sender_id.present? ? @order.sender_id : "-" %>
+          <% else %>
+            <%#= @user.name %>
+          <% end %>
+        </td>   <%#= form.hidden_field  :sender_id%>
+      </tr>
+
+  <%#= form.label :sender_id %>
+    <%#= @order.sender.name %> <%# Logic needs to be added when seeing from the company to add this %>
+    <%#= form.text_field :sender_id%>
+    <%# @sender.name %>
+    <%#= form.hidden_field :sender_id %>
+
+
+
+
+<%# Think of logic to render (a block) only for Company, another one for Sernder and probably one more for transporter)%>
+
+<% if current_page?(action: 'new') %> 
+ <tr>
+   <th><%= form.label :status %></th>
+   <td><%= form.select :status, Order.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
+</tr>
+
+
+<% else %>
+  <% if @user.class.name == "Company" %>
+    <tr>
+      <th><%= form.label :transporter_id %></th>
+        <td><%= form.collection_select :transporter_id, @user.transporters,
+                :id, :name, include_blank: false %></td>
+    </tr>
+    <tr>
+      <th><%= form.label :status %></th>
+        <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
+          <%# if @user.class.name == "Company" %>
+     </tr>
+
+  <% else %> <%# this is for the sender on edit a draft
+   <tr>
+      <th><%= form.label :transporter_id %></th>
+        <td><%= @order.transporter.present? ? @order.transporter.company.name : "-" %></td>
+    </tr>
+    <tr>
+      <th><%= form.label :status %></th>
+        <td>
+          <%# if @user.class.name == "Company" %>
+            <%#= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %>
+            
+            <% if @order.status == 'draft'%>
+              <%= form.select :status, Order.statuses.keys[0..1].map {|status| [status.titleize,status]} %>
+            <%else %> 
+              <%#= @order.status %>
+              <%= form.select :status, Order.statuses.keys[1].map {|status| [  status.titleize,status]} %>
+            <% end %>
+              <%#= form.hidden_field :status %> <%# remove for testing [1] %>
+          <% end %>
+        </td>
+    </tr>
+
+
+  <% end %>
+
+REMOVED FROM 
+
+ <th><%= form.label :status %></th>
+  <% if @order.status == 'draft'%>
+
+
+  WHAT IS BELOW
+
+  <%else %> <%# May no need this else as when order is posted sender wont be able to edit it %>
+     <%= @order.status %>
+     <td><%= form.select :status, Order.statuses.keys[1].map {|status| [  status.titleize,status]} %></td>
+
+This was for the sender
+
+       <tr>
+        <th><%= form.label :sender_id %></th> 
+        <td><%= @user.name %></td>
+      </tr>
+      <tr>
+        <th><%= form.label :status %></th>
+        <% if @order.status == 'draft'%>
+          <td><%= form.select :status, Order.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
+        <%else %> <%# May no need this else as when order is posted sender wont be able to edit it %>
+          <%= @order.status %>
+          <td><%= form.select :status, Order.statuses.keys[1].map {|status| [  status.titleize,status]} %></td>
+        <% end %>
+
+
+
+
+
+
+
+
+For company and transporter
+
+
+     <tr>
+      <th>Company</th>
+      <td><%= @order.transporter.present? ? @order.transporter.company.name : "-" %></td>
+    </tr>
+    <tr>
+      <th>Transporter</th>
+      <td><%= @order.transporter.present? ? @order.transporter.name : "-"  %></td>
+    </tr>
+
+
+
+    <% if @order.transporter.present? %>
+<% else %>
+    <% end %>
+
+
+
+
+
+
+    

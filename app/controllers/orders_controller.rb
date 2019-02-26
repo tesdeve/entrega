@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :set_user
+  #before_action :set_sender
 
   # GET /orders
   # GET /orders.json
@@ -22,25 +23,43 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new
+    @order= @user.orders.build
+   # @order = Order.new({:sender_id => @sender})
+  # @sender = Sender.find(params[:sender_id])
+  #  @order = @sender.orders.create(order_params)#{:sender_id => @sender.id}) #.id removed when try to work with sender to create a new order
+  #  puts "HIIIuuuIII"
+  #  puts params
   end
 
   # GET /orders/1/edit
   def edit
-  #  if @user = @company
-  #    render :company_order
-  #  elsif @user = @sender
+  #  if @user = @sender
   #    render :sender_order
+  #  elsif @user = @company
+  #    render :company_order
   #  end
   end
 
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
-
+    #@sender = Sender.find(params[:sender_id])
+    #@order = @sender.orders.create(order_params)  #{:sender_id => @sender.id}) #.id removed when try to work with sender to create a new order
+   
+# the three lines of code below help with setting the posted value. It can be used for the button for posting the order
+   @order= @user.orders.build(order_params) 
+  # if @order.status == "draft"
+  #   seton_draft
+  # else
+  #   seton_create
+  # end
+  # @order.save
+# Up to here for the button to Post
+   puts 'PARAMS'
+   puts params
     respond_to do |format|
       if @order.save
+        puts 'PARAMS CREATED'
         format.html { redirect_to url_for([@user, @order]), notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -49,6 +68,32 @@ class OrdersController < ApplicationController
       end
     end
   end
+
+#  def draft 
+#    #set_user
+#
+#    @order= @user.orders.build(order_params) 
+#    seton_draft
+#    @order.save 
+#     respond_to do |format|
+#      if @order.save
+#        puts 'PARAMS CREATED'
+#        format.html { redirect_to url_for([@user, @order]), notice: 'Order was successfully created.' }
+#        format.json { render :show, status: :created, location: @order }
+#      else
+#        format.html { render :new }
+#        format.json { render json: @order.errors, status: :unprocessable_entity }
+#      end
+#    end 
+#  end
+#
+   # puts "HIIIuuuIII"
+   # puts params
+   # puts "HIIIIIIII"
+    #@order = Sender.orders.create(order_params)
+    #@order = Order.new(order_params)
+
+
 
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
@@ -63,6 +108,7 @@ class OrdersController < ApplicationController
       end
     end
   end
+
 
   # DELETE /orders/1
   # DELETE /orders/1.json
@@ -84,6 +130,19 @@ class OrdersController < ApplicationController
       resource, id = request.path.split('/')[1,2]
       @user = resource.singularize.classify.constantize.find(id)
     end
+
+  #  def seton_create
+  #    @order.status = 1
+  #  end
+#
+  #  def seton_draft
+  #    @order.status = 0
+  #  end
+#
+
+   # def sender_sender
+   #   @sender = Sender.find(params[:id])
+   # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params

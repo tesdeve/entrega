@@ -1,36 +1,56 @@
 <p id="notice"><%= notice %></p>
-
+<br>
 <table class="table table-striped">
-  <thead>
-  </thead>
-
-  <tbody>
-
+  <thead><b>Order Reference: </b><%= @order.id %></thead>
+<br>
+<br>
+  <tbody>   
     <tr>
       <th>Sender</th>
       <td><%= @order.sender.name %></td>
     </tr>
-
-    <tr>
-      <th>Company</th>
-      <td><%= @order.transporter.present? ? @order.transporter.company.name : "-" %></td>
-    </tr>
-    <tr>
-    
-    <th>Transporter</th>
-      <td><%= @order.transporter.present? ? @order.transporter.name : "-"  %></td>
-    </tr>
-
-    <%= render 'info', order: @order %>
-
-
-
+    <% if @order.status == 'draft' || @order.status == 'posted' %>
+    <% else %>   
+          <tr>
+            <th>Company</th>
+            <td><%= @order.transporter.present? ? @order.transporter.company.name : "-" %></td>
+          </tr>
+          <tr>
+            <th>Transporter</th>
+            <td><%= @order.transporter.present? ? @order.transporter.name : "-"  %></td>
+          </tr>
+      <% end %>    
+     <tr>
+       <th>Status</th>
+       <td><%= @order.status.present? ? @order.status.capitalize : "-"  %></td>
+     </tr>
+        <%= render 'info', order: @order %>
   </tbody>
 </table>
 
 <hr>
-<%= link_to 'Edit', url_for([:edit, @user, @order]) %> |
-<%= link_to 'Back', url_for([@user, :orders]) %>
+<%= link_to "My Orders".html_safe , url_for([@user, :orders]) %> | 
+
+
+
+<% if @user.class.name == "Sender" && @order.status == 'draft'%> <%# Sender can edit the order after Posted %>
+ <%= link_to 'Edit', url_for([:edit, @user, @order]) %> 
+ <% else %>
+ <td></td> 
+<% end %>
+
+
+
+
+<% if @user.class.name == "Company"  %>
+  <%= link_to 'Posted Orders', posts_company_orders_path %> |
+  <%= link_to 'Edit', url_for([:edit, @user, @order]) %> 
+<% elsif (@order.status == 'completed'  || @order.status == 'cancelled')%>  
+   <td></td> 
+<% else %>  
+<%#= link_to 'Edit', url_for([:edit, @user, @order]) %> 
+<% end %> 
+
 <hr>
 
 <%= plane_icon = {:name => 'plane',
