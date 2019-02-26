@@ -1,95 +1,122 @@
-<% if @user.class.name == "Sender" && @order.status != 'draft' %>
- <h1> Oeee!!! You shouldn't be here !!! </h1>
- <br>
- <br>
-<% else %>
+<%  if order.status == ('completed') || order.status == ('cancelled') || (@user.class.name == "Sender" && order.status != 'draft')%>  <%# User unable to edit ifNot draft %>
+    <br> <%# crear CSS heading para todos los headings de la app %>
+    <h1> Oeee!!! You shouldn't be here !!! </h1>
+    <br>
+    <br>
 
-<%= form_with(model: order, url: [@user, order], local: true) do |form| %>
-  <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
 
-      <ul>
-      <% order.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+
+
+
+
+
+
+
+
+
+
+
+  
+  <br>  
+<% else%>
+  <%= form_with(model: order, url: [@user, order], local: true) do |form| %>
+    <% if order.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
+        <ul>
+        <% order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <table class="table table-striped">
+      <thead>
+      </thead>
+
+      <tbody>
+        <% if @user.class.name == "Sender"  %>
+          <tr>
+            <th><%= form.label :sender_id %></th> 
+            <td><%= @user.name %></td>
+          </tr>
+          <tr>
+            <th><%= form.label :status %></th>
+            <% if @order.status == 'draft'%>
+            <td><%= form.select :status, Order.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
+            <% else %>
+            <td><%= @order.status.capitalize %></td>
+              <% end %>   
+
+          </tr>      
+          <%= render 'forminfo', form: form%>
+
+        <% elsif @user.class.name == "Company"  %> <%# Edit order from Company %> <%# info %>
+          <tr>
+            <th><%= form.label :sender_id %></th> 
+            <td><%= @order.sender.name %></td>
+          </tr>
+          <tr>
+            <th><%= form.label :company_id %></th> 
+            <td><%=  @user.name %></td>
+          </tr>        
+          <tr>
+
+            <th><%= form.label :transporter_id %></th>
+            <% if @user.class.name == "Company" && order.status == ('completed') || order.status == ('cancelled')  %>
+            <td><%= @order.transporter.name %></td>
+            <% else %>
+            <td><%= form.collection_select :transporter_id, @user.transporters,
+                :id, :name, include_blank: false %></td>
+            <% end %>
+          </tr>
+          <tr>
+             <%# probaly to add a logic that shows order as "taken" as soon as company clicks on the (edit button) so Company can see the taken orders and the options will be from taken onwards %>
+            <th><%= form.label :status %></th>
+            <% if @order.status == 'posted' %>
+              <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
+            <% elsif @order.status == 'taken' %>
+              <td><%= form.select :status, Order.statuses.keys[3..5].map {|status| [status.titleize,status]} %></td>
+            <% elsif @order.status == 'inTransit' %>
+              <td><%= form.select :status, Order.statuses.keys[3..5].map {|status| [status.titleize,status]} %>
+            <% else @order.status == 'completed' || @order.status == 'cancelled' %>
+              <td><%= @order.status %></td>
+            <% end %>
+          </tr>
+          <%= render 'info', form: form%>  <%# Added @ to all orders on _info %>
+
+          <% elsif @user.class.name == "Transporter"  %> 
+          <tr>
+            <th><%= form.label :sender_id %></th> 
+            <td><%= @order.sender.name %></td>
+          </tr>
+          <tr>
+            <th><%= form.label :company_id %></th> 
+            <td><%#=  @order.company.name %></td>
+          </tr>        
+          <tr>
+            <th><%= form.label :transporter_id %></th>
+            <td><%=  @user.name %></td>
+          </tr>
+          <tr>
+            <th><%= form.label :status %></th>
+            <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
+          </tr>
+          
       <% end %>
-      </ul>
+      </tbody>
+    </table>
+
+    <div class="actions">
+      <%= form.submit %>
     </div>
+
+   <%#= link_to 'Create Order', sender_orders_path(@user), method: :post %>
+
+  <%#= link_to link_to {:action => :create}, :method => :post %>
+
   <% end %>
 
-  <table class="table table-striped">
-    <thead>
-    </thead>
 
-    <tbody>
-      <% if @user.class.name == "Sender"  %>
-        <tr>
-          <th><%= form.label :sender_id %></th> 
-          <td><%= @user.name %></td>
-        </tr>
-        <tr>
-          <th><%= form.label :status %></th>
-          <% if @order.status == 'draft'%>
-          <td><%= form.select :status, Order.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
-          <% else %>
-          <td><%= @order.status.capitalize %></td>
-            <% end %>   
-
-        </tr>      
-        <%= render 'forminfo', form: form%>
-
-      <% elsif @user.class.name == "Company"  %> <%# Edit order from Company %> <%# info %>
-        <tr>
-          <th><%= form.label :sender_id %></th> 
-          <td><%= @order.sender.name %></td>
-        </tr>
-        <tr>
-          <th><%= form.label :company_id %></th> 
-          <td><%=  @user.name %></td>
-        </tr>        
-        <tr>
-          <th><%= form.label :transporter_id %></th>
-          <td><%= form.collection_select :transporter_id, @user.transporters,
-              :id, :name, include_blank: false %></td>
-        </tr>
-        <tr>
-           <%# probaly to add a logic that shows order as "taken" as soon as company clicks on the (edit button) so Company can see the taken orders and the options will be from taken onwards %>
-          <th><%= form.label :status %></th>
-          <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
-        </tr>
-        <%= render 'info', form: form%>  <%# Added @ to all orders on _info %>
-
-        <% elsif @user.class.name == "Transporter"  %> 
-        <tr>
-          <th><%= form.label :sender_id %></th> 
-          <td><%= @order.sender.name %></td>
-        </tr>
-        <tr>
-          <th><%= form.label :company_id %></th> 
-          <td><%#=  @order.company.name %></td>
-        </tr>        
-        <tr>
-          <th><%= form.label :transporter_id %></th>
-          <td><%=  @user.name %></td>
-        </tr>
-        <tr>
-          <th><%= form.label :status %></th>
-          <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
-        </tr>
-        
-    <% end %>
-    </tbody>
-  </table>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-
- <%#= link_to 'Create Order', sender_orders_path(@user), method: :post %>
-
-<%#= link_to link_to {:action => :create}, :method => :post %>
-
-<% end %>
-
-
-<% end %>
+  <% end %>

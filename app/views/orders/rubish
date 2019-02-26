@@ -1,3 +1,34 @@
+ ('posted') ||order.status == ('completed') || order.status == ('cancelled')  
+
+
+
+|| 
+        (@user.class.name == "Company" && order.status == ('completed') || order.status == ('cancelled')) || 
+        (@user.class.name == "Transporter" && order.status == ('completed') || order.status == ('cancelled')) %>
+
+
+
+
+
+  <% elsif %>
+    <td><%= link_to url_for([:edit, @user, order]) do %><span class="fa fa-edit"></span><% end %></td>    
+  <% elsif (@user.class.name == "Company")%> 
+    <td><%= link_to url_for([:edit, @user, order]) do %><span class="fa fa-edit"></span><% end %></td>
+  <% else (@user.class.name == "Transporter")%>
+    <td><%= link_to url_for([:edit, @user, order]) do %><span class="fa fa-edit"></span><% end %></td>
+  <% end %>
+    <br> <%# crear CSS heading para todos los headings de la app %>
+  <h1> Oeee!!! You shouldn't be here !!! </h1>
+   <br>
+   <br>
+   
+
+
+
+
+
+
+
   companies/3/transporters/34
 
 
