@@ -1,11 +1,8 @@
-<br>
-<h1>Editing Order Reference: </b><%= @order.id %></h1>
-<br>
-<br>
-<br>
-<%= render 'form', order: @order %>
+<h1 class="headingspace">Editing Order Reference: <%= @order.id %></h1>
+
+  <%= render 'form', order: @order %>
 
 <hr>
-<%= link_to 'Show', url_for([@user, @order]) %> |
-<%= link_to 'Back', url_for([@user, :orders]) %>
+  <%= link_to 'Show', url_for([@user, @order]) %> |
+  <%= link_to 'Back', url_for([@user, :orders]) %>
 <hr>

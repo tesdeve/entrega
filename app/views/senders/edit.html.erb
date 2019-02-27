@@ -1,10 +1,8 @@
-<br>
-<h1>Editing <%= @sender.name.capitalize %></h1>
-<br>
-<br>
-<%= render 'form', sender: @sender %>
+<h1 class="headingspace">Editing <%= @sender.name.capitalize %></h1>
+
+  <%= render 'form', sender: @sender %>
 
 <hr>
-<%= link_to 'Show', @sender %> |
-<%= link_to 'Back', senders_path %>
+  <%= link_to 'Show', @sender %> |
+  <%= link_to 'Back', senders_path %>
 <hr>

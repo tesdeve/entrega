@@ -1,0 +1,14 @@
+<tr>
+  <th><%= form.label :company_id %></th> 
+  <td><%=  @order.company.name %></td>
+</tr> 
+
+<tr>
+  <th><%= form.label :transporter_id %></th>
+  <td><%=  @user.name %></td>
+</tr>
+
+<tr>
+  <th><%= form.label :status %></th>
+  <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
+</tr>

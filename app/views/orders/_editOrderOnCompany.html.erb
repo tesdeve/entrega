@@ -1,0 +1,29 @@
+<tr>
+  <th><%= form.label :company_id %></th> 
+  <td><%=  @user.name %></td>
+</tr>  
+
+<tr>
+  <th><%= form.label :transporter_id %></th>
+  <% if @user.class.name == "Company" && @order.status == ('completed') || @order.status == ('cancelled')  %>
+  <td><%= @order.transporter.name %></td>
+  <% elsif @user.class.name == "Company" && @order.status == ('posted') %>
+  <td><%= form.collection_select :transporter_id, @user.transporters,
+      :id, :name, include_blank: false %></td>
+  <% else %>
+  <td><%= @order.transporter.name %></td>
+  <% end %>
+</tr>
+
+<tr>
+  <th><%= form.label :status %></th>
+  <% if @order.status == 'posted' %>
+    <td><%= form.select :status, Order.statuses.keys[2..5].map {|status| [status.titleize,status]} %></td>
+  <% elsif @order.status == 'taken' %>
+    <td><%= form.select :status, Order.statuses.keys[3..5].map {|status| [status.titleize,status]} %></td>
+  <% elsif @order.status == 'inTransit' %>
+    <td><%= form.select :status, Order.statuses.keys[3..5].map {|status| [status.titleize,status]} %>
+  <% else @order.status == 'completed' || @order.status == 'cancelled' %>
+    <td><%= @order.status %></td>
+  <% end %>
+</tr>

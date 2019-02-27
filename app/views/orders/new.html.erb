@@ -1,10 +1,7 @@
-<br>
-<h1>New Order</h1>
-<br>
-<br>
-<br>
-<%= render 'form', order: @order %>
+<h1 class="headingspace"><%= @user.name %> New Order</h1>
+
+  <%= render 'form', order: @order %>
 
 <hr>
-<%= link_to 'Back', url_for([@user, :orders]) %>
+  <%= link_to 'Back', url_for([@user, :orders]) %>
 <hr>

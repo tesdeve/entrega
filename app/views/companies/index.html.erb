@@ -1,16 +1,11 @@
 <p id="notice"><%= notice %></p>
-<br>
-<h1>Companies</h1>
-<br>
-<br>
+<h1 class="headingspace">Companies</h1>
 <hr>
 <div data-turbolinks="false">
   <%= form_with(url: companies_path, method: :get, local: true) do |form| %>
-
     <table class="table table-striped">
       <thead>
       </thead>
-
       <tbody>
         <tr>
           <th><%= form.label :search %></th>

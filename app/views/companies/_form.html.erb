@@ -14,7 +14,6 @@
   <table class="table table-striped">
     <thead>
     </thead>
-
     <tbody>
       <tr>
         <th><%= form.label :name %></th>
@@ -55,7 +54,6 @@
         <th><%= form.label :status %></th>
         <td><%= form.select :status, Company.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
       </tr>
-
     </tbody>
   </table>
 

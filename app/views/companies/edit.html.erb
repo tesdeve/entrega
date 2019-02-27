@@ -1,10 +1,7 @@
-<br>
-<h1>Editing <%= @company.name.capitalize %></h1>
-<br>
-<br>
-<%= render 'form', company: @company %>
+<h1 class="headingspace">Editing <%= @company.name.capitalize %></h1>
+  <%= render 'form', company: @company %>
 
 <hr>
-<%= link_to 'Show', @company %> |
-<%= link_to 'Back', companies_path %>
+  <%= link_to 'Show', @company %> |
+  <%= link_to 'Back', companies_path %>
 <hr>
