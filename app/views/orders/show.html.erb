@@ -27,25 +27,24 @@
 </table>
 
 <hr>
-<%= link_to "My Orders".html_safe , url_for([@user, :orders]) %> | 
 <% if (@order.status == 'completed') || (@order.status == 'cancelled')%> 
-   <td></td>
+  <td> </td>
 <% elsif %>
   <% if @user.class.name == "Sender" && @order.status == 'draft'%> <%# Sender can edit the order after Posted %>
-   <%= link_to 'Edit', url_for([:edit, @user, @order]) %> 
+   |<%= link_to 'Edit', url_for([:edit, @user, @order]) %> 
    <% else %>
    <td></td> 
   <% end %> 
    <td></td>
 <% elsif @user.class.name == "Company"  %>
-    <%= link_to 'Edit', url_for([:edit, @user, @order]) %> 
-    <%= link_to 'Posted Orders', posts_company_orders_path %> |
+    |<%= link_to 'Edit', url_for([:edit, @user, @order]) %> 
+    |<%= link_to 'Posted Orders', posts_company_orders_path %> |
   <td></td> 
 <% else %>  
 <%#= link_to 'Edit', url_for([:edit, @user, @order]) %> 
 <% end %> 
 
-
+<td> <%= link_to 'Posted Orders', posts_sender_orders_path(@user) %></td>
 <hr>
 
 <%= plane_icon = {:name => 'plane',

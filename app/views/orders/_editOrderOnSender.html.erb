@@ -1,8 +1,0 @@
-<tr>
-  <th><%= form.label :status %></th>
-  <% if @order.status == 'draft'%>
-    <td><%= form.select :status, Order.statuses.keys[0..1].map {|status| [status.titleize,status]} %></td>
-  <% else %>
-    <td><%= @order.status.capitalize %></td>
-  <% end %> 
-</tr> 

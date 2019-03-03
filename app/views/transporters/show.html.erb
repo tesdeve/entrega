@@ -1,12 +1,16 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="headingspace"><%= @transporter.name %></h1>
+<h1 class="headingspace"><%= @user.name %></h1>
 
 <table class="table table-striped">
   <thead>
   </thead>
 
   <tbody>
+    <tr>
+      <th>Company</th>
+      <td><%= @transporter.company.name %></td>
+    </tr>
     <tr>
       <th>Name</th>
       <td><%= @transporter.name %></td>
@@ -30,10 +34,29 @@
   </tbody>
 </table>
 
-<hr>
-<%#= link_to 'Edit', edit_company_transporter_path(@company, @transporter) %> 
-<%= link_to 'Back to Transporter', company_transporters_path(@company) %> | 
-<%# if @user.class.name == "Transporter"  %>
-<%= link_to "My Orders", orders_company_transporter_path(@transporter) %> 
+
+<%# order.transporter.company %>
+
 
 <hr>
+
+<% if  @user.class.name == "Company"  %>
+  <%= link_to 'Edit', edit_company_transporter_path(@user, @transporter) %> |
+  <%= link_to 'Back to Transporters', company_transporters_path(@user) %> | 
+  <%= link_to 'My Orders',orders_company_transporter_path(@user, @transporter) %> 
+<% else %> 
+ <%= link_to 'My Orders', transporter_orders_path(@user)%> 
+<% end %>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+

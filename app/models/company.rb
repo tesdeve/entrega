@@ -1,4 +1,5 @@
 class Company < ApplicationRecord
+
   has_many :transporters, dependent: :destroy
   has_many :orders, through: :transporters
 

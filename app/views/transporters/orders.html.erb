@@ -1,6 +1,8 @@
-<p id="notice"><%= notice %></p>
-<%# Think of creating logic to put/get the right user. Currently only works for Company and Sneder, it isn't working for Transporter%>
+<h1> HI orders from Transporter</h1>
+<h3> NOte: This format is the same as the one in orders index. Move it through a render </h3>
 
+<p id="notice"><%= notice %></p>
+<%# Think of creating logic to put title depending on what is being shown (e.g.Posted Orders, Draft orders, Taken orders) must liekly using enum and/or routes %>
 
 <h1 class="headingspace"> <%= @user.name %> Orders</h1>
 <table class="table table-striped">
@@ -42,15 +44,15 @@
         <td><%= order.width %></td>
         <td><%= order.heigth %></td>
         <td><%= order.pickup_address %></td>
-        <td><%#= [order.pu_lat, order.pu_lng].present? ? [order.pu_lat, order.pu_lng].to_dms : "-" %></td> 
+        <td><%= [order.pu_lat, order.pu_lng].present? ? [order.pu_lat, order.pu_lng].to_dms : "-" %></td> 
         <td><%= order.pu_time %></td>
         <td><%= order.delivery_address %></td>
-        <td><%#= [order.dy_lat, order.dy_lng].present? ? [order.dy_lat, order.dy_lng].to_dms : "-"  %></td>
+        <td><%= [order.dy_lat, order.dy_lng].present? ? [order.dy_lat, order.dy_lng].to_dms : "-"  %></td>
         <td><%= order.dy_time %></td>
         <td><%= number_with_delimiter(order.cost.to_i) %></td>
         <td><%= number_with_delimiter(order.radius) %></td>
         <% if (@user.class.name != "Transporter")%>
-          <td><%#= number_with_delimiter(( \
+          <td><%= number_with_delimiter(( \
             Geocoder::Calculations.distance_between( \
             [@user.latitude,@user.longitude], \
             [order.pu_lat,order.pu_lng])*1000).to_i) \
@@ -59,6 +61,7 @@
         <td></td>
         <% end %>
         <td><%= link_to url_for([@user, order]) do %><span class="fa fa-eye"></span><% end %></td> 
+        <td><%#= link_to 'View', transporter_order_path(@transpoter, order) %><%# Need logic code for a link when the tranporter is present %></td>
 
 
 <%# Think of moving this somewhere else and call it as render, probably _forminfo o _info it is called as well at he begining of index%>
@@ -75,33 +78,35 @@
         <% else (@user.class.name == "Transporter")%>
           <td><%= link_to url_for([:edit, @user, order]) do %><span class="fa fa-edit"></span><% end %></td>
         <% end %>
-    <% end %>
+      <% end %>
     
 
         <td><%= link_to url_for([@user, @order]), method: :delete, data: { confirm: 'Are you sure?' } do %><span class="fa fa-trash"></span><% end %></td>  
           <td></td> 
          <% else %>
        
-    <% end %>
+<% end %>
       </tr>
        
   </tbody>
 </table>
 
-
 <hr>
   <% if @user.class.name == "Sender" %>
     <%= link_to 'New Order', url_for([:new, @user, :order]) %> |
-    <%= link_to 'Back to Sender', url_for(@user) %> |
-    <%= link_to 'My Orders', sender_orders_path(@user) %> | 
-    <%= link_to 'My Posted Orders', posts_sender_orders_path(@user) %>     
-  <% elsif @user.class.name == "Company" %>
-    <%= link_to 'Back to Me', url_for(@user) %>
+    <%= link_to 'Back to Sender', url_for(@user) %>
+
   <% else %>
-     <% @user.class.name == "Transporter" %>
-     <%= link_to 'Back to Me', url_for(@user) %>
+     <% @user.class.name == "Company" && @transporter.present? %> <%# I don't think this if is doing anything %>
+     <%= link_to 'Back to Transporter', company_transporter_path(@company, @transporter) %>
   <% end %>
 <hr>
+
+
+
+  <%# elsif @user.class.name == "Company" %>
+    <%#= link_to 'Back to Me', url_for(@user) %>
+
 
 
  <% if (@user.class.name != "Transporter")%>

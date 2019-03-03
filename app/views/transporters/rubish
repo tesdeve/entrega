@@ -1,0 +1,24 @@
+resources :companies do
+    resources :transporters 
+    resources :orders do
+        collection do
+        get :posts
+        get :taken
+      end
+      member do
+        get :take
+      end
+    end
+  end
+ 
+  resources :senders do
+    resources :orders do 
+      member do
+        put :draft
+      end      
+    end
+  end
+
+  resources :transporters do
+    resources :orders
+  end 

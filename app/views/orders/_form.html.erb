@@ -1,4 +1,4 @@
-<% if @order.status == ('completed') || @order.status == ('cancelled') || (@user.class.name == "Sender" && @order.status !=     'draft')%>  <%# Sender unable to edit if Not draft %>
+<% if @order.status == ('completed') || @order.status == ('cancelled') || (@user.class.name == "Sender" && @order.status != 'draft')%>  <%# Sender unable to edit if Not draft %>
   <%= render 'orders/restrictedAccess' %>  
 <% else%>
   <%= form_with(model: order, url: [@user, order], local: true) do |form| %>
@@ -17,20 +17,7 @@
       <thead>
       </thead>
       <tbody>
-        <tr>
-          <th><%= form.label :sender_id %></th> 
-          <td><%= @order.sender.name %></td>
-        </tr>
-        <% if @user.class.name == "Sender"  %>
-          <%= render 'editOrderOnSender', form: form %>  
-          <%= render 'forminfo', form: form %>
-        <% elsif @user.class.name == "Company"  %>    
-          <%= render 'editOrderOnCompany', form: form %> 
-          <%= render 'info', form: form%>  
-        <% elsif @user.class.name == "Transporter"  %> 
-          <%= render 'editOrderOnTransporter', form: form %> 
-          <%= render 'info', form: form%>        
-      <% end %>
+       <%= render 'editUsersOrderLogic', form: form %> 
       </tbody>
     </table>
 

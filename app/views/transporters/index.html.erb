@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="headingspace">Transporters</h1>
+<h1 class="headingspace"><%= @company.name %> Transporters</h1>
 
 <table class="table table-striped">
   <thead>
@@ -39,7 +39,7 @@
 </table>
 
 <hr>
-<%#= link_to 'New Transporter', new_company_transporter_path(@company) %> 
+<%= link_to 'New Transporter', new_company_transporter_path(@company, @transporter) %> |
 <%= link_to 'Back to Company', company_path(@company) %>
 
 <hr>

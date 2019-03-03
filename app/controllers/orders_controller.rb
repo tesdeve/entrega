@@ -1,20 +1,38 @@
 class OrdersController < ApplicationController
+
+  # the two line below works great for company, can create a transporter and all is gooood!!! 
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :set_user
-  #before_action :set_sender
 
+
+
+  #before_action :set_transporter  # set fot testing from transporter
+  #before_action :set_transporters
   # GET /orders
   # GET /orders.json
-  def index
-    @orders = @user.orders
-  end
 
+ def index  
+   @orders = @user.orders # Original
+ end
+
+  def transporter_orders    
+    @transporter = @user.transporter.find(params[:id])
+    @orders = @transporter.orders
+  end
+#
   def posts
     coordinates =[@user.latitude, @user.longitude]
     @orders = Order.posted.select {|o| (Geocoder::Calculations.distance_between(coordinates, \
                 [o.pu_lat,o.pu_lng])*1000) <= o.radius ? o : nil}
     render :index
   end
+
+
+  def posted
+    #@user = @sender
+    @orders = @user.orders.posted
+  end
+
 
   # GET /orders/1
   # GET /orders/1.json
@@ -131,6 +149,27 @@ class OrdersController < ApplicationController
       @user = resource.singularize.classify.constantize.find(id)
     end
 
+   def order_params
+     params.require(:order).permit(:description, :weight, :length, :width, :heigth, :pickup_address, :pu_lat, :pu_lng, :pu_time, :delivery_address, :dy_lat, :dy_lng, :dy_time, :cost, :status, :radius, :sender_id, :transporter_id)
+   end
+end
+
+
+
+
+# Below is the coded added
+#  Needs a code for when working from the Transporter
+   #def set_transporter
+   #  @user =@company
+   #  #@company = Company.find(params[:id])
+   #  @transporter = @company.transporters.find(params[transporter_id])
+   #end
+
+   #def set_transporters
+
+   #  @transporters = @company.transporter.all
+   #end
+
   #  def seton_create
   #    @order.status = 1
   #  end
@@ -145,7 +184,4 @@ class OrdersController < ApplicationController
    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def order_params
-      params.require(:order).permit(:description, :weight, :length, :width, :heigth, :pickup_address, :pu_lat, :pu_lng, :pu_time, :delivery_address, :dy_lat, :dy_lng, :dy_time, :cost, :status, :radius, :sender_id, :transporter_id)
-    end
-end
+ 

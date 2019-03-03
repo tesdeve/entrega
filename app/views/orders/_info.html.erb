@@ -31,7 +31,7 @@
 <tr>
   <th>Pickup Coordinates</th>
   <td>
-    <%#= @order.sender_id.present? ? @order.sender_id : "-" %></td> 
+    <%= @order.sender_id.present? ? @order.sender_id : "-" %></td> 
 
 
     <%#= [order.pu_lat, order.pu_lng].present? ? [pu_lat, order.pu_lng].to_dms : "-" %></td>
